@@ -1,0 +1,21 @@
+version: '3.7'
+services: 
+    pg:
+        image: postgres
+        container_name: 'db_express'
+        restart: always
+        ports: 
+            - "4444:5432"
+        # Volumes : find folder mounts by : docker inspect <container name> -> object Mounts: [{destination: <folder to mounts>}, {}] 
+        volumes: 
+            - ./docker/init.sql:/docker-entrypoint-initdb.d/init-database.sql
+            - ./docker/data:/var/lib/postgresql/data
+        environment: 
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+    redis:
+        image: redis:7.0
+        container_name: 'rd_express'
+        restart: always
+        ports:
+            - "6666:6379"
